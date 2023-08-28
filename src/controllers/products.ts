@@ -1,0 +1,29 @@
+import { Request, Response } from "express";
+import { ProductList, ProductObject } from "../models/product";
+import { CError } from "../errors/custome_error";
+import { StatusCodes } from "http-status-codes";
+
+export const get_all_products = async (req: Request, res: Response) => {
+  const productListRepo = new ProductList();
+  const products = await productListRepo.get_all();
+  if (products.length === 0)
+    throw new CError("there is no products", StatusCodes.NOT_FOUND);
+  return res.json(products);
+};
+
+export const create_product = async (req: Request, res: Response) => {
+  const body = req.body;
+  const productListRepo = new ProductList();
+  const product = await productListRepo.create(body);
+  res.json(product);
+}
+
+
+export const get_product_by_id = async (req: Request, res: Response) => {
+  const id: number = Number.parseInt(req.params.id);
+  const productObjectRepo = new ProductObject(id);
+  const product = await productObjectRepo.get();
+  if (product === null)
+    throw new CError('product not found', StatusCodes.NOT_FOUND);
+  res.json(product);
+}
