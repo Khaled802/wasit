@@ -16,14 +16,28 @@ export const create_product = async (req: Request, res: Response) => {
   const productListRepo = new ProductList();
   const product = await productListRepo.create(body);
   res.json(product);
-}
-
+};
 
 export const get_product_by_id = async (req: Request, res: Response) => {
   const id: number = Number.parseInt(req.params.id);
   const productObjectRepo = new ProductObject(id);
   const product = await productObjectRepo.get();
   if (product === null)
-    throw new CError('product not found', StatusCodes.NOT_FOUND);
+    throw new CError("product not found", StatusCodes.NOT_FOUND);
   res.json(product);
-}
+};
+
+export const update_product = async (req: Request, res: Response) => {
+  const id: number = Number.parseInt(req.params.id);
+  const productObjectRepo = new ProductObject(id);
+  const body = req.body;
+  const product = await productObjectRepo.update(body);
+  res.json(product);
+};
+
+export const delete_product = async (req: Request, res: Response) => {
+  const id: number = Number.parseInt(req.params.id);
+  const productObjectRepo = new ProductObject(id);
+  const product = await productObjectRepo.delete();
+  res.status(StatusCodes.NO_CONTENT).json(product);
+};

@@ -43,7 +43,7 @@ export class ProductObject implements ModelObject {
       },
     });
 
-    return count > 1;
+    return count > 0;
   }
 
   async get() {
@@ -70,9 +70,9 @@ export class ProductObject implements ModelObject {
 
   async delete() {
     return this.product.delete({
-      where: { 
-        id: this.id
-      }
-    })
+      where: {
+        id: this.id,
+      },
+    });
   }
 }
