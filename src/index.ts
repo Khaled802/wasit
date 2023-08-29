@@ -1,9 +1,13 @@
 import express, { Request, Response } from "express";
 import productsRouter from "./routes/product";
+import authRouter from "./routes/auth";
 import { CError } from "./errors/custome_error";
 import dotenv from "dotenv";
 import "express-async-errors";
+import passport from 'passport';
 import { ErrorMessage } from "./types/error";
+import { jwtStrategy } from "./JWT/main";
+import { isAdminOrReadOnly } from "./middlewares/permissions/admin";
 
 dotenv.config();
 const app = express();
@@ -11,7 +15,12 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.use("/products", productsRouter);
+passport.use(jwtStrategy);
+app.use(passport.initialize());
+
+app.use("/products", passport.authenticate('jwt', { session: false }), isAdminOrReadOnly, productsRouter);
+app.use("/auth", authRouter);
+
 
 app.use(
   async (
