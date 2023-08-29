@@ -1,8 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import { ModelObject } from "./interfaces/main";
+import { prismaSingle } from "../prisma/main";
 
 export class UserObject implements ModelObject {
-  static prisma: PrismaClient = new PrismaClient();
+  static prisma: PrismaClient = prismaSingle;
   static user = UserObject.prisma.user;
 
   constructor(private id: number) {}

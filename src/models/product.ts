@@ -1,14 +1,12 @@
 import { ModelList, ModelObject } from "./interfaces/main";
 import { PrismaClient, Product, Prisma } from "@prisma/client";
 import { ProductSafeBody } from "./interfaces/products";
+import { prismaSingle } from "../prisma/main";
 
 export class ProductList implements ModelList {
-  static prisma: PrismaClient | null = null;
+  static prisma: PrismaClient = prismaSingle;
   product: Prisma.ProductDelegate<any>;
   constructor() {
-    if (ProductList.prisma === null) {
-      ProductList.prisma = new PrismaClient();
-    }
     this.product = ProductList.prisma.product;
   }
 
@@ -24,14 +22,11 @@ export class ProductList implements ModelList {
 }
 
 export class ProductObject implements ModelObject {
-  static prisma: PrismaClient | null = null;
+  static prisma: PrismaClient = prismaSingle;
   private product: Prisma.ProductDelegate<any>;
   readonly id: number;
 
   constructor(id: number) {
-    if (ProductList.prisma === null) {
-      ProductList.prisma = new PrismaClient();
-    }
     this.product = ProductList.prisma.product;
     this.id = id;
   }

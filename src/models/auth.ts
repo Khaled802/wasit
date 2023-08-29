@@ -5,9 +5,10 @@ import bcrypt from "bcrypt";
 import { IAuth } from "./interfaces/auth";
 import { CError } from "../errors/custome_error";
 import { StatusCodes } from "http-status-codes";
+import { prismaSingle } from "../prisma/main";
 
 export class Auth implements IAuth {
-  static prisma: PrismaClient = new PrismaClient();
+  static prisma: PrismaClient = prismaSingle;
   static user = Auth.prisma.user;
 
   static async is_username_found(username: string) {
