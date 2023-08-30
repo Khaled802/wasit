@@ -8,18 +8,26 @@ import passport from 'passport';
 import { ErrorMessage } from "./types/error";
 import { jwtStrategy } from "./JWT/main";
 import { isAdminOrReadOnly } from "./middlewares/permissions/admin";
+import { upload } from "./uploading_files/main";
+var bodyParser = require('body-parser');
 
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true })); 
+// app.use()
 
 passport.use(jwtStrategy);
 app.use(passport.initialize());
 
+app.use('/uploads', express.static('uploads'));
+
 app.use("/products", passport.authenticate('jwt', { session: false }), isAdminOrReadOnly, productsRouter);
 app.use("/auth", authRouter);
+
 
 
 app.use(
@@ -39,6 +47,7 @@ app.use(
     if (c_err.is_there_message_details()) {
       result.msg_details = c_err.message_details;
     }
+    console.log(err);
     res.status(c_err.status_code).json(result);
   }
 );

@@ -41,3 +41,19 @@ export const delete_product = async (req: Request, res: Response) => {
   const product = await productObjectRepo.delete();
   res.status(StatusCodes.NO_CONTENT).json(product);
 };
+
+
+export const uploadImage = async (req: Request, res: Response) => {
+  if (!req.file)
+    throw new CError('No file uploaded.', StatusCodes.BAD_REQUEST);
+  // You can save the file info in a database or perform other actions here
+  const productId = Number.parseInt(req.body.id);
+  const productObjectRepo = new ProductObject(productId);
+  if (!productObjectRepo.is_found())
+    throw new CError('product not found', StatusCodes.NOT_FOUND);
+
+
+  const product = await productObjectRepo.add_image(req.file.filename);
+
+  res.json(product);
+}

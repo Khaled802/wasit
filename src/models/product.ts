@@ -70,4 +70,20 @@ export class ProductObject implements ModelObject {
       },
     });
   }
+
+  async add_image(image: string) {
+     const product = await this.get();
+    if (product == null) return false;
+    
+    product.image.push(image);
+    
+    return await this.product.update({
+      where: {
+        id: this.id,
+      },
+      data: {
+        image: product.image
+      }
+    })
+  }
 }
