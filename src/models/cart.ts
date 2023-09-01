@@ -21,6 +21,16 @@ export class Cart implements ModelList {
       where: {
         userId: this.userId,
       },
+      select: {
+        id: true,
+        product: {
+          select: {
+            id: true,
+            name: true,
+            description: true,
+          }
+        }
+      }
     });  
   }
 
