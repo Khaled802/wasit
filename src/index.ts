@@ -1,15 +1,16 @@
 import express, { Request, Response } from "express";
 import productsRouter from "./routes/product";
 import authRouter from "./routes/auth";
+import cartRouter from "./routes/cart";
 import { CError } from "./errors/custome_error";
 import dotenv from "dotenv";
 import "express-async-errors";
-import passport from 'passport';
+import passport from "passport";
 import { ErrorMessage } from "./types/error";
 import { jwtStrategy } from "./JWT/main";
 import { isAdminOrReadOnly } from "./middlewares/permissions/admin";
 import { upload } from "./uploading_files/main";
-var bodyParser = require('body-parser');
+var bodyParser = require("body-parser");
 
 dotenv.config();
 const app = express();
@@ -17,18 +18,22 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true })); 
+app.use(bodyParser.urlencoded({ extended: true }));
 // app.use()
 
 passport.use(jwtStrategy);
 app.use(passport.initialize());
 
-app.use('/uploads', express.static('uploads'));
+app.use("/uploads", express.static("uploads"));
 
-app.use("/products", passport.authenticate('jwt', { session: false }), isAdminOrReadOnly, productsRouter);
+app.use(
+  "/products",
+  passport.authenticate("jwt", { session: false }),
+  isAdminOrReadOnly,
+  productsRouter
+);
 app.use("/auth", authRouter);
-
-
+app.use("/cart", passport.authenticate("jwt", { session: false }), cartRouter);
 
 app.use(
   async (
