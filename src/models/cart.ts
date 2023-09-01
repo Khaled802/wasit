@@ -23,4 +23,13 @@ export class Cart implements ModelList {
       },
     });  
   }
+
+  async delete(id: number) {
+    return this.cartItem.delete({
+      where: {
+        id,
+        userId: this.userId
+      }
+    })
+  }
 }
