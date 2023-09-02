@@ -1,14 +1,30 @@
 import { Router } from "express";
-import { makeReview } from "../controllers/reviews";
-import { reviewBodyValidation, reviewIdValidator } from "../validators/reviews";
+import { deleteReview, getProductReviews, getReview, makeReview, updateReview } from "../controllers/reviews";
+import {
+  reviewBodyValidation,
+  productReviewIdValidator,
+  reviewIdValidator,
+} from "../validators/reviews";
 import { validatorMiddleware } from "../validators/main";
 
 const router = Router();
 
+router
+  .route("/product/:productId")
+  // ----- middlewares -------- //
+  .all(productReviewIdValidator, validatorMiddleware)
+  // ------- methods ---------- //
+  .get(getProductReviews)
+  .post(reviewBodyValidation, validatorMiddleware, makeReview)
 
-router.route('/:productId')
+
+router
+  .route("/:reviewId")
+  // ----- middlewares -------- //
   .all(reviewIdValidator, validatorMiddleware)
-  .post(reviewBodyValidation, validatorMiddleware,makeReview)
-
+  // ------- methods ---------- //
+  .get(getReview)
+  .put(reviewBodyValidation, validatorMiddleware, updateReview)
+  .delete(deleteReview);
 
 export default router;
