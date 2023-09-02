@@ -45,6 +45,6 @@ export const deleteCartItem = async (req: Request, res: Response) => {
   } catch (error) {
     const err = error as Error;
     if (!("code" in err) || err.code != "P2025") throw err;
-    throw new CError("id is wrong", StatusCodes.BAD_REQUEST);
+      throw new CError("id is wrong", StatusCodes.BAD_REQUEST);
   }
 };

@@ -22,6 +22,7 @@ model Product {
   amount      Int
   image       String[]
   cartItems   CartItem[]
+  reviews     Review[]
 }
 
 model User {
@@ -31,6 +32,7 @@ model User {
   password String
   role     Role       @default(User)
   cart     CartItem[]
+  reviews  Review[]
 }
 
 model CartItem {
@@ -40,6 +42,20 @@ model CartItem {
   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   productId Int
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+}
+
+model Review {
+  id Int @id @default(autoincrement())
+
+  userId    Int
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId Int
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  rate    Int
+  comment String
 
   @@unique([userId, productId])
 }

@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import productsRouter from "./routes/product";
 import authRouter from "./routes/auth";
 import cartRouter from "./routes/cart";
+import reviewsRouter from "./routes/reviews";
 import { CError } from "./errors/custome_error";
 import dotenv from "dotenv";
 import "express-async-errors";
@@ -34,6 +35,7 @@ app.use(
 );
 app.use("/auth", authRouter);
 app.use("/cart", passport.authenticate("jwt", { session: false }), cartRouter);
+app.use("/reviews", passport.authenticate("jwt", { session: false }), reviewsRouter);
 
 app.use(
   async (
