@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node dest/index.js",
-    "dev": "nodemon src/index.ts"
+    "dev": "nodemon src/index.ts",
+    "start-es": "node ./elasticsearch/app.js"
   },
   "author": "khaled802",
   "license": "ISC",

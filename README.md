@@ -5,12 +5,17 @@
   - express.js
   - typescript
   - prisma
+  - elasticsearch
 
-## typescript
-  - folder -> ./src
+## paths
+  - typescript code -> ./src
+  - elasticsearh service -> ./elasticsearch
 
 ## to run for development
   - npm run dev
+
+## run elastic search
+   - npm run start-es
 
 ## functionalities:
    1. Only admins can add products & delete products
