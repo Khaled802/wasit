@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+service Products {
+    rpc Find (query) returns (productList) {};
+}
+
+message query {
+    string q = 1;
+}
+
+message productList {
+    repeated product products = 1;
+}
+
+message product {
+    int32 id = 1;
+    string name = 2;
+    string description = 3;
+}
