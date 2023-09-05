@@ -16,6 +16,9 @@ const {
     insertDoc,
     isExistIndex,
 } = require("./es");
+
+
+
 const productsProto = grpc.loadPackageDefinition(packageDefinition);
 
 async function findProduct(call, callback) {
@@ -39,8 +42,6 @@ async function findProduct(call, callback) {
             description: rs._source.description,
         });
     }
-
-    console.log(reformat);
 
     if (result) {
         callback(null, { products: reformat });
@@ -68,6 +69,7 @@ const setupElasticSearch = async () => {
         });
     }
 }
+
 const server = new grpc.Server();
 server.addService(productsProto.Products.service, { find: findProduct });
 server.bindAsync(

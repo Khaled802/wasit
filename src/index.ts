@@ -11,6 +11,7 @@ import { ErrorMessage } from "./types/error";
 import { jwtStrategy } from "./JWT/main";
 import { isAdminOrReadOnly } from "./middlewares/permissions/admin";
 import { upload } from "./uploading_files/main";
+import { basicSearch } from "./controllers/search";
 var bodyParser = require("body-parser");
 
 dotenv.config();
@@ -36,6 +37,7 @@ app.use(
 app.use("/auth", authRouter);
 app.use("/cart", passport.authenticate("jwt", { session: false }), cartRouter);
 app.use("/reviews", passport.authenticate("jwt", { session: false }), reviewsRouter);
+app.use('/search', basicSearch)
 
 app.use(
   async (
