@@ -6,6 +6,7 @@
   - typescript
   - prisma
   - elasticsearch
+  - gRPC
 
 ## paths
   - typescript code -> ./src
