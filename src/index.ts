@@ -3,9 +3,9 @@ import productsRouter from "./routes/product";
 import authRouter from "./routes/auth";
 import cartRouter from "./routes/cart";
 import reviewsRouter from "./routes/reviews";
+import searchRouter from "./routes/search";
 import { CError } from "./errors/custome_error";
 import dotenv from "dotenv";
-import "express-async-errors";
 import passport from "passport";
 import { ErrorMessage } from "./types/error";
 import { jwtStrategy } from "./JWT/main";
@@ -13,6 +13,8 @@ import { isAdminOrReadOnly } from "./middlewares/permissions/admin";
 import { upload } from "./uploading_files/main";
 import { basicSearch } from "./controllers/search";
 var bodyParser = require("body-parser");
+import "express-async-errors";
+
 
 dotenv.config();
 const app = express();
@@ -37,7 +39,7 @@ app.use(
 app.use("/auth", authRouter);
 app.use("/cart", passport.authenticate("jwt", { session: false }), cartRouter);
 app.use("/reviews", passport.authenticate("jwt", { session: false }), reviewsRouter);
-app.use('/search', basicSearch)
+app.use('/search', searchRouter)
 
 app.use(
   async (

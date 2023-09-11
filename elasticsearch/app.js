@@ -1,8 +1,3 @@
-// const config = require('config');
-// const elasticConfig = config.get('elastic');
-const { client } = require("./client");
-const { productNormalProperties, products } = require("./temp");
-const express = require("express");
 const path = require("path");
 const grpc = require("@grpc/grpc-js");
 const protoLoader = require("@grpc/proto-loader");
@@ -11,15 +6,18 @@ const packageDefinition = protoLoader.loadSync(
 );
 const { findProduct } = require("./controllers");
 const { setupElasticSearch } = require("./helpers/setups");
+const { deleteAllDocsOfIndex } = require('./es')
 
 const productsProto = grpc.loadPackageDefinition(packageDefinition);
 
 const server = new grpc.Server();
+
 server.addService(productsProto.Products.service, { find: findProduct });
 server.bindAsync(
   "0.0.0.0:50051",
   grpc.ServerCredentials.createInsecure(),
   async () => {
+    await deleteAllDocsOfIndex('products');
     await setupElasticSearch();
     console.log("es started succesfully");
     server.start();
