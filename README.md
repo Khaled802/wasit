@@ -48,3 +48,16 @@
   - uploading_files: dealing with uploading images to the server and store it
   - validatores: it has validations of requests are divided depend on controllers
   
+
+## elaticsearch
+   - I use it to search on products (High quality results, works with very large scale)
+   - you can start with it using docker
+   - options:
+     - basic search: it search by the user query
+
+## gRPC
+   - why? to connect the services with each other in efficient way
+     - It uses HTTP/2 which improves the performance
+     - uses protocol buffer which gives you specific schema and it is fast
+   
+
